@@ -1,10 +1,12 @@
 mod data;
-
 mod controller;
 mod view;
 
 fn main() {
-    // For now, main will contain the Model...
-    controller::do_stuff();
-    view::present();
+    // TODO For now, main will contain the Model...
+    
+    let mut bag = controller::create_bag();
+    controller::shuffle_bag(&mut bag);
+
+    print!("Bag = {}", bag);
 }
