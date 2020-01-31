@@ -1,4 +1,4 @@
-#[derive(std::fmt::Debug)]
+#[derive(std::cmp::PartialEq)]
 pub enum Tile {
     Blue,
     Dark,
@@ -7,77 +7,52 @@ pub enum Tile {
     Yellow,
 }
 
-impl std::fmt::Display for Tile {
-    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
-        match self {
-            Tile::Blue => write!(f, "B"),
-            Tile::Dark => write!(f, "D"),
-            Tile::Red => write!(f, "R"),
-            Tile::Turquoise => write!(f, "T"),
-            Tile::Yellow => write!(f, "Y"),
-        }
-    }
-}
-
 // Reserve
 
-#[derive(std::fmt::Debug)]
 pub struct Bag {
     pub reserve: Vec<Tile>
-}
-
-impl std::fmt::Display for Bag {
-    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
-        if let Err(e) = write!(f, "(") {
-            return std::fmt::Result::Err(e);
-        }
-
-        for val in self.reserve.iter() {
-            if let Err(e) =  write!(f, " {} ", val) {
-                return std::fmt::Result::Err(e);
-            }
-        }
-
-        if let Err(e) =  write!(f, ")") {
-            return std::fmt::Result::Err(e);
-        }
-
-        return std::fmt::Result::Ok(());
-    }
 }
 
 // pub struct Discard {
     
 // }
 
-// // Table
+// Table
 
-// pub struct Table {
+pub struct Coaster {
+    pub tiles: Vec<Tile>,
+}
 
-// }
+pub struct Table {
+    pub coasters: Vec<Coaster>,
+    pub dump: Vec<Tile>
+}
 
-// pub struct Coaster {
+// Player board
 
-// }
+pub struct Line {
+    pub tiles: Vec<Tile>,
+}
 
-// pub struct Dump {
+impl Line {
+    pub fn capacity(&self) -> usize {
+        return self.tiles.capacity();
+    }
+}
 
-// }
+pub struct Wall {
+    pub cells: [Option<Tile>; 25],
+}
 
-// // Player board
+impl Wall {
+    pub fn get_cell(&self, line: usize, column: usize) -> & Option<Tile> {
+        return &self.cells[(line * 5) + column];
+    }
+}
 
-// pub struct PlayerBoard {
-    
-// }
-
-// pub struct Line {
-
-// }
-
-// pub struct Wall {
-
-// }
-
-// pub struct Garbage {
-
-// }
+pub struct PlayerBoard {
+    pub number: usize,
+    pub lines: [Line; 5],
+    pub wall: Wall,
+    pub garbage: [Option<Tile>; 7],
+}
